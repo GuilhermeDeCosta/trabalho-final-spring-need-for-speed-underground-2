@@ -1,2 +1,250 @@
 GET http://localhost:8080
 Accept: application/json
+
+### API de Eventos Acadêmicos - Documentação de Uso
+### Servidor local: http://localhost:8080
+
+### ============================================================================
+### DEPARTAMENTOS
+### ============================================================================
+
+### Listar todos os departamentos
+GET http://localhost:8080/departments
+Content-Type: application/json
+
+### Buscar departamento por ID
+GET http://localhost:8080/departments/1
+Content-Type: application/json
+
+### Criar novo departamento
+POST http://localhost:8080/departments
+Content-Type: application/json
+
+{
+  "nome": "Departamento de Ciência da Computação",
+  "sigla": "DCC",
+  "responsavel": "Prof. Dr. João Silva"
+}
+
+### Atualizar departamento
+PUT http://localhost:8080/departments/1
+Content-Type: application/json
+
+{
+  "nome": "Departamento de Ciência da Computação",
+  "sigla": "DCC",
+  "responsavel": "Prof. Dr. João Santos"
+}
+
+### Relatório do departamento
+GET http://localhost:8080/departments/1/report
+Content-Type: application/json
+
+### Excluir departamento
+DELETE http://localhost:8080/departments/1
+
+### ============================================================================
+### PALESTRANTES
+### ============================================================================
+
+### Listar todos os palestrantes
+GET http://localhost:8080/speakers
+Content-Type: application/json
+
+### Buscar palestrante por ID
+GET http://localhost:8080/speakers/1
+Content-Type: application/json
+
+### Criar novo palestrante
+POST http://localhost:8080/speakers
+Content-Type: application/json
+
+{
+  "nome": "Dr. Maria Santos",
+  "miniCurriculo": "Doutora em Inteligência Artificial com mais de 10 anos de experiência em pesquisa e desenvolvimento de sistemas inteligentes.",
+  "instituicao": "Universidade Federal do Paraná"
+}
+
+### Atualizar palestrante
+PUT http://localhost:8080/speakers/1
+Content-Type: application/json
+
+{
+  "nome": "Dr. Maria Santos Silva",
+  "miniCurriculo": "Doutora em Inteligência Artificial com mais de 15 anos de experiência em pesquisa e desenvolvimento de sistemas inteligentes.",
+  "instituicao": "Universidade Federal do Paraná"
+}
+
+### Excluir palestrante
+DELETE http://localhost:8080/speakers/1
+
+### ============================================================================
+### ALUNOS
+### ============================================================================
+
+### Listar todos os alunos
+GET http://localhost:8080/students
+Content-Type: application/json
+
+### Buscar aluno por ID
+GET http://localhost:8080/students/1
+Content-Type: application/json
+
+### Criar novo aluno
+POST http://localhost:8080/students
+Content-Type: application/json
+
+{
+  "nome": "Ana Carolina Oliveira",
+  "matricula": "2024001001",
+  "curso": "Ciência da Computação"
+}
+
+### Atualizar aluno
+PUT http://localhost:8080/students/1
+Content-Type: application/json
+
+{
+  "nome": "Ana Carolina Oliveira Silva",
+  "matricula": "2024001001",
+  "curso": "Engenharia de Software"
+}
+
+### Listar inscrições do aluno
+GET http://localhost:8080/students/1/registrations
+Content-Type: application/json
+
+### Excluir aluno
+DELETE http://localhost:8080/students/1
+
+### ============================================================================
+### EVENTOS
+### ============================================================================
+
+### Listar todos os eventos
+GET http://localhost:8080/events
+Content-Type: application/json
+
+### Buscar evento por ID
+GET http://localhost:8080/events/1
+Content-Type: application/json
+
+### Criar novo evento
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "nome": "Workshop de Inteligência Artificial",
+  "descricao": "Workshop introdutório sobre os conceitos fundamentais de IA, machine learning e suas aplicações práticas no desenvolvimento de software.",
+  "data": "2025-08-15T14:00:00",
+  "limiteParticipantes": 50,
+  "departamentoId": 1,
+  "palestrantesIds": [1]
+}
+
+### Atualizar evento
+PUT http://localhost:8080/events/1
+Content-Type: application/json
+
+{
+  "nome": "Workshop Avançado de Inteligência Artificial",
+  "descricao": "Workshop avançado sobre conceitos de IA, deep learning e suas aplicações práticas em projetos reais.",
+  "data": "2025-09-20T14:00:00",
+  "limiteParticipantes": 30,
+  "departamentoId": 1,
+  "palestrantesIds": [1, 3]
+}
+
+### Excluir evento
+DELETE http://localhost:8080/events/1
+
+### ============================================================================
+### INSCRIÇÕES
+### ============================================================================
+
+### Criar nova inscrição em um evento
+POST http://localhost:8080/events/1/registrations
+Content-Type: application/json
+
+{
+  "alunoId": 1
+}
+
+### Cancelar inscrição
+DELETE http://localhost:8080/registrations/1
+
+### ============================================================================
+### EXEMPLOS DE RESPOSTA
+### ============================================================================
+
+### Exemplo de resposta - Lista de departamentos
+GET /departments
+[
+  {
+    "id": 1,
+    "nome": "Departamento de Ciência da Computação",
+    "sigla": "DCC",
+    "responsavel": "Prof. Dr. João Silva"
+  },
+  {
+   "id": 2,
+    "nome": "Departamento de Engenharia",
+    "sigla": "ENG",
+    "responsavel": "Prof. Dr. Carlos Santos"
+  }
+]
+
+### Exemplo de resposta - Relatório do departamento
+# GET /departments/1/report
+{
+  "id": 1,
+  "nome": "Departamento de Ciência da Computação",
+  "sigla": "DCC",
+  "responsavel": "Prof. Dr. João Silva",
+  "totalEventos": 5,
+  "totalInscritos": 120
+}
+
+### Exemplo de resposta - Lista de eventos
+# GET /events
+[
+  {
+    "id": 1,
+    "nome": "Workshop de Inteligência Artificial",
+    "descricao": "Workshop introdutório sobre IA",
+    "data": "2025-08-15T14:00:00",
+    "limiteParticipantes": 50,
+    "departamentoId": 1,
+    "departamentoNome": "Departamento de Ciência da Computação",
+    "palestrantes": [
+      {
+        "id": 1,
+        "nome": "Dr. Maria Santos",
+        "instituicao": "UFPR"
+      }
+    ],
+    "numeroInscritos": 25,
+    "lotado": false,
+    "vagasDisponiveis": true
+  }
+]
+
+### Exemplo de resposta - Inscrições do aluno
+# GET /students/1/registrations
+[
+  {
+    "id": 1,
+    "dataInscricao": "2025-06-20T10:30:00",
+    "status": "ATIVO",
+    "evento": {
+      "id": 1,
+      "nome": "Workshop de IA",
+      "data": "2025-08-15T14:00:00"
+    },
+    "aluno": {
+      "id": 1,
+      "nome": "Ana Carolina Oliveira",
+      "matricula": "2024001001"
+    }
+  }
+]
