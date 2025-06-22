@@ -18,8 +18,3 @@ class DuplicateResourceException extends RuntimeException {
     }
 }
 
-class InvalidOperationException extends RuntimeException {
-    public InvalidOperationException(String message) {
-        super(message);
-    }
-}
